@@ -1,3 +1,4 @@
+// Function to get random output for Rock, Paper, Scissors
 function getComputerChoice() {
     const randomNumber = Math.floor(Math.random() * 3);
     switch (randomNumber) {
@@ -10,6 +11,8 @@ function getComputerChoice() {
     }
 }
 
+
+// Function to play one round of game
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toLowerCase();
     let winCount;
@@ -44,6 +47,9 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
+
+// Function to play 5 rounds of the game
+// The winner is reported at the end
 function playGame() {
     for (let i = 0; i < 5; i++) {
         winCount = 0;
@@ -58,4 +64,6 @@ function playGame() {
     }
 }
 
+
+// Code to play the game
 playGame();
