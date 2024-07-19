@@ -1,48 +1,57 @@
-// Function to get random output for Rock, Paper, Scissors
+let humanScore = 0;
+let computerScore = 0;
+
+
+// Get random output of Rock, Paper, Scissors for computer
 function getComputerChoice() {
-    const randomNumber = Math.floor(Math.random() * 3);
-    switch (randomNumber) {
-        case 0:
-            return "rock";
+    let computerChoice = Math.floor(Math.random() * 3) + 1;
+
+    switch(computerChoice) {
         case 1:
-            return "paper";
+            return "rock";
         case 2:
+            return "paper";
+        case 3:
             return "scissors";
     }
 }
 
 
-// Function to play one round of game
-function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toLowerCase();
-    let winCount;
+// Get human input
+function getHumanChoice() {
+    let humanChoice = prompt("Choose between Rock, Paper or Scissors");
+    humanChoice = humanChoice.toLowerCase();
+    return humanChoice;
+}
 
-    if (computerSelection === playerSelection) {
+
+// Play one round of game
+function playRound (computerChoice, humanChoice) {
+    if (computerChoice === humanChoice) {
         alert("TIE!");
-        winCount += 0;
-    } else if (computerSelection === "rock") {
-        if (playerSelection === "paper") {
-            alert("You Win! Paper beats Rock");
-            winCount += 1;
-        } else if (playerSelection === "scissors") {
-            alert("You Lose! Rock beats Scissors");
-            winCount += 0;
+    } else if (computerChoice === 'rock') {
+        if (humanChoice === 'scissors') {
+            alert("Rock beats scissors. Computer wins!");
+            computerScore++;
+        } else if (humanChoice === 'paper') {
+            alert("Paper beats rock. You win!");
+            humanScore++;
         }
-    } else if (computerSelection === "paper") {
-        if (playerSelection === "rock") {
-            alert("You Lose! Paper beats Rock");
-            winCount += 0;
-        } else if (playerSelection === "scissors") {
-            alert("You Win! Scissors beats Paper");
-            winCount += 1;
+    } else if (computerChoice === 'paper') {
+        if (humanChoice === 'rock') {
+            alert("Paper beats rock. Computer wins!");
+            computerScore++;
+        } else if (humanChoice === 'scissors') {
+            alert("Scissors beat paper. You win!");
+            humanScore++;
         }
-    } else if (computerSelection === "scissors") {
-        if (playerSelection === "rock") {
-            alert("You Win! Rock beats Scissors");
-            winCount += 1;
-        } else if (playerSelection === "paper") {
-            alert("You Lose! Scissors beats Paper");
-            winCount += 0;
+    } else if (computerChoice === 'scissors') {
+        if (humanChoice === 'paper') {
+            alert("Scissors beats paper. Computer wins!");
+            computerScore++;
+        } else if (humanChoice === 'rock') {
+            alert("Rock beats scissors. You win!");
+            humanScore++;
         }
     }
 }
@@ -52,18 +61,18 @@ function playRound(playerSelection, computerSelection) {
 // The winner is reported at the end
 function playGame() {
     for (let i = 0; i < 5; i++) {
-        winCount = 0;
-        let getPlayerChoice = prompt("Rock, Paper, Scissors?");
-        playRound(getPlayerChoice, getComputerChoice());
+        playRound(getComputerChoice(), getHumanChoice());
     }
 
-    if (winCount >= 3) {
-        alert("Congrats! You beat The Computer!");
+    if (computerScore > humanScore) {
+        alert(`Computer Wins! ${computerScore} : ${humanScore}!`);
+    } else if (humanScore > computerScore) {
+        alert(`Human Wins! ${humanScore} : ${computerScore}!`);
     } else {
-        alert("Ha! The Computer beats You!")
+        alert(`The game is TIED. ${computerScore} : ${humanScore}!`);
     }
 }
 
 
-// Code to play the game
+// Play the game
 playGame();
