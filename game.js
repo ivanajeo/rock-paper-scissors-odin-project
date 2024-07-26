@@ -1,12 +1,11 @@
 let humanScore = 0;
 let computerScore = 0;
 
-
 // Get random output of Rock, Paper, Scissors for computer
 function getComputerChoice() {
-    let computerChoice = Math.floor(Math.random() * 3) + 1;
+    let random = Math.floor(Math.random() * 3) + 1;
 
-    switch(computerChoice) {
+    switch(random) {
         case 1:
             return "rock";
         case 2:
@@ -18,61 +17,82 @@ function getComputerChoice() {
 
 
 // Get human input
-function getHumanChoice() {
-    let humanChoice = prompt("Choose between Rock, Paper or Scissors");
-    humanChoice = humanChoice.toLowerCase();
-    return humanChoice;
+function getHumanChoice(e) {
+    switch(e.target.id) {
+        case "rockBtn":
+            return "rock";
+        case "paperBtn":
+            return "paper";
+        case "scissorsBtn":
+            return "scissors";
+    }
 }
 
+function updateResults(situation) {
+    const results = document.querySelector("#results");
+    results.textContent = 
+        `${situation}\nHuman: ${humanScore}, Computer: ${computerScore}`;
+}
 
 // Play one round of game
-function playRound (computerChoice, humanChoice) {
+function playRound (humanChoice) {
+
+    const computerChoice = getComputerChoice();
+    let situation;
+
     if (computerChoice === humanChoice) {
-        alert("TIE!");
+        situation = "TIE!";
     } else if (computerChoice === 'rock') {
         if (humanChoice === 'scissors') {
-            alert("Rock beats scissors. Computer wins!");
+            situation = "Rock beats scissors. Computer wins!";
             computerScore++;
         } else if (humanChoice === 'paper') {
-            alert("Paper beats rock. You win!");
+            situation = "Paper beats rock. You win!";
             humanScore++;
         }
     } else if (computerChoice === 'paper') {
         if (humanChoice === 'rock') {
-            alert("Paper beats rock. Computer wins!");
+            situation = "Paper beats rock. Computer wins!";
             computerScore++;
         } else if (humanChoice === 'scissors') {
-            alert("Scissors beat paper. You win!");
+            situation = "Scissors beat paper. You win!";
             humanScore++;
         }
     } else if (computerChoice === 'scissors') {
         if (humanChoice === 'paper') {
-            alert("Scissors beats paper. Computer wins!");
+            situation = "Scissors beats paper. Computer wins!";
             computerScore++;
         } else if (humanChoice === 'rock') {
-            alert("Rock beats scissors. You win!");
+            situation = "Rock beats scissors. You win!";
             humanScore++;
         }
     }
+
+    updateResults(situation);
+    checkEndGame();
 }
 
+function checkEndGame() {
+    if (humanScore >= 5 || computerScore >= 5) {
+        const btns = document.querySelectorAll(".buttons button");
+        btns.forEach((btn) => btn.disabled = true);
 
-// Function to play 5 rounds of the game
-// The winner is reported at the end
+        const results = document.querySelector("#results");
+        let winner = humanScore > computerScore ? "Human" : "Computer";
+
+        results.textContent += `\n${winner} is the winner!`
+    }
+}
 function playGame() {
-    for (let i = 0; i < 5; i++) {
-        playRound(getComputerChoice(), getHumanChoice());
-    }
+    const buttons = document.querySelector(".buttons");
 
-    if (computerScore > humanScore) {
-        alert(`Computer Wins! ${computerScore} : ${humanScore}!`);
-    } else if (humanScore > computerScore) {
-        alert(`Human Wins! ${humanScore} : ${computerScore}!`);
-    } else {
-        alert(`The game is TIED. ${computerScore} : ${humanScore}!`);
-    }
+    buttons.addEventListener("click", (e) => {
+        const humanChoice = getHumanChoice(e);
+        playRound(humanChoice);
+    })
+
+    updateResults("");
+   
 }
 
-
-// Play the game
 playGame();
